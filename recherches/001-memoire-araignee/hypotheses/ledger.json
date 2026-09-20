@@ -11,9 +11,14 @@
     "H003-graph-weaver": {
       "question": "Graphe cross-domain ameliore rappel ?",
       "metric": "rappel cross-domain, p50",
-      "status": "a-tester",
+      "status": "en-cours",
       "branch": "hyp/H003-graph-weaver",
-      "runs": []
+      "runs": [
+        {
+          "bench": "bench_h003 N=10, 2 paires attendues",
+          "result": "weaver 2/2, BM25 2/2, lat 0.5ms : egalite sur micro-corpus facile, valeur = aretes explicites + evidence + hook triples"
+        }
+      ]
     },
     "H004-structures": {
       "question": "Triples types + composition graphe battent texte seul en rappel cross-domain ?",
