@@ -1,36 +1,42 @@
-"""Moteur d'hypothèses minimal — ne jamais perdre la root.
+"""Moteur d'hypothèses LABO — ne jamais perdre la root.
 
-Ledger JSON : chaque hypothèse a un état, une baseline, des runs.
-- root = branche main, commit stable
-- tester = branche hyp/* + bench harness
-- décider = merge seulement si gagne
+Labo-wide : --recherche 001-memoire-araignee (défaut) ou --recherche 002-xxx.
+Chaque recherche a son ledger : recherches/<slug>/hypotheses/ledger.json
 
 Usage :
-  python hypothesis_engine.py add --id H004 --question "..." --metric "rappel top5"
-  python hypothesis_engine.py run --id H004 --bench "python bench_latency.py ..."
-  python hypothesis_engine.py decide --id H004 --decision merge
+  python hypothesis_engine.py add --recherche 001-memoire-araignee --id H004 --question "..." --metric "rappel top5"
+  python hypothesis_engine.py run --recherche 001-memoire-araignee --id H004 --bench "..." --result "..."
+  python hypothesis_engine.py decide --recherche 001-memoire-araignee --id H004 --decision merge
+  python hypothesis_engine.py list --recherche 001-memoire-araignee
 """
 
 import argparse
 import json
 from pathlib import Path
 
-LEDGER = Path(__file__).parent.parent / "recherches" / "001-memoire-araignee" / "hypotheses" / "ledger.json"
+REPO = Path(__file__).parent.parent
 
 
-def load():
-    if LEDGER.exists():
-        return json.loads(LEDGER.read_text(encoding="utf-8"))
-    return {"root": "main", "hypotheses": {}}
+def ledger_path(recherche: str) -> Path:
+    return REPO / "recherches" / recherche / "hypotheses" / "ledger.json"
 
 
-def save(d):
-    LEDGER.parent.mkdir(parents=True, exist_ok=True)
-    LEDGER.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
+def load(recherche: str):
+    p = ledger_path(recherche)
+    if p.exists():
+        return json.loads(p.read_text(encoding="utf-8"))
+    return {"root": "main", "recherche": recherche, "hypotheses": {}}
+
+
+def save(recherche: str, d):
+    p = ledger_path(recherche)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--recherche", default="001-memoire-araignee")
     sub = ap.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("add")
     a.add_argument("--id", required=True)
@@ -43,16 +49,14 @@ def main():
     d = sub.add_parser("decide")
     d.add_argument("--id", required=True)
     d.add_argument("--decision", choices=["merge", "abandon", "reformuler"], required=True)
+    sub.add_parser("list")
     args = ap.parse_args()
 
-    db = load()
+    db = load(args.recherche)
     if args.cmd == "add":
         db["hypotheses"][args.id] = {
-            "question": args.question,
-            "metric": args.metric,
-            "status": "a-tester",
-            "branch": f"hyp/{args.id}",
-            "runs": [],
+            "question": args.question, "metric": args.metric,
+            "status": "a-tester", "branch": f"hyp/{args.recherche}/{args.id}", "runs": [],
         }
     elif args.cmd == "run":
         h = db["hypotheses"][args.id]
@@ -60,8 +64,11 @@ def main():
         h["status"] = "en-cours"
     elif args.cmd == "decide":
         db["hypotheses"][args.id]["status"] = args.decision
-    save(db)
-    print(json.dumps(db["hypotheses"].get(args.id, {}), indent=2, ensure_ascii=False))
+    save(args.recherche, db)
+    if args.cmd == "list":
+        print(json.dumps(db, indent=2, ensure_ascii=False))
+    else:
+        print(json.dumps(db["hypotheses"].get(args.id, {}), indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":

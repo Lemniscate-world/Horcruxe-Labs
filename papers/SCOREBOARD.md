@@ -1,6 +1,7 @@
-# Scoreboard — classement par chiffres
+# Scoreboard LABO — toutes recherches, par chiffres
 
-Baseline bench V2 (N=2000) : sqlite p50 0.081ms | cache fair p50 0.076ms | fullscan p50 1.697ms | parité 60/60
+## 001-memoire-araignee
+- `draft-001-spider-hot-cache/bench-v2.json` N=2000 : {'n': 2000, 'seed': 42, 'sqlite_limit50': {'mean': 0.124, 'p50': 0.08}, 'cache_fair50': {'mean': 0.093, 'p50': 0.075}, 'cache_fullscan': {'mean': 2.106, 'p50': 1.697}, 'parity_fair': '60/60'}
 
 | Hypothèse | Question | Statut | Runs |
 |---|---|---|---|

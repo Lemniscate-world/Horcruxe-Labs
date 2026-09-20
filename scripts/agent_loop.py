@@ -1,27 +1,43 @@
-"""Agent autonome Horcruxe — pas besoin de lancer orx à la main.
+"""Agent autonome Horcruxe LABO — tourne sur TOUTES les recherches, pas que la 001.
 
-Boucle : propose (ledger) -> teste (bench harness) -> décide (scoreboard).
-orx devient un simple miroir optionnel (dashboard), pas un prérequis.
+Boucle : pour chaque recherches/*/ → bench + démos + scoreboard labo.
+orx = miroir optionnel, jamais prérequis.
 
 Usage :
-  python agent_loop.py --once        # 1 tour : baseline + weaver démo + scoreboard
-  python agent_loop.py --loop 3600   # toutes les heures (laisse tourner)
+  python agent_loop.py --once
+  python agent_loop.py --loop 3600
+  double-clic run_all.bat (sans terminal à taper)
 """
 
 import argparse
-import json
 import subprocess
 import sys
-import time
 from pathlib import Path
 
 REPO = Path(__file__).parent.parent
-CODE = REPO / "recherches" / "001-memoire-araignee" / "code"
 
 
 def run(cmd):
     p = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO)
-    return p.stdout.strip() + p.stderr.strip()
+    return (p.stdout.strip() + p.stderr.strip())[:800]
+
+
+def tour_recherche(rdir: Path):
+    code = rdir / "code"
+    print(f"--- {rdir.name} ---")
+    for bench in sorted(code.glob("bench_*.py")):
+        if bench.name == "bench_latency.py":
+            continue  # V1 historique, V2 fait foi
+        out = bench.parent.parent / "papers"
+        outs = list(out.glob("*/bench-*.json"))
+        dest = str(outs[0]) if outs else ""
+        cmd = [sys.executable, str(bench), "--n", "2000", "--queries", "30", "--seed", "42"]
+        if dest:
+            cmd += ["--out", dest]
+        print(bench.name, ":", run(cmd)[:300])
+    weaver = code / "weaver.py"
+    if weaver.exists():
+        print("weaver:", run([sys.executable, str(weaver)])[:200])
 
 
 def main():
@@ -31,18 +47,14 @@ def main():
     args = ap.parse_args()
 
     def tour():
-        print("== tour agent ==")
-        # 1. Baseline V2
-        out = run([sys.executable, str(CODE / "bench_v2.py"), "--n", "2000", "--queries", "30", "--seed", "42",
-                   "--out", str(CODE.parent / "papers" / "draft-001-spider-hot-cache" / "bench-v2.json")])
-        print(out[:500])
-        # 2. Weaver démo (preuve qu'il tourne)
-        out2 = run([sys.executable, str(CODE / "weaver.py")])
-        print("weaver:", out2[:300])
-        # 3. Scoreboard
-        print(run([sys.executable, str(REPO / "scripts" / "scoreboard.py")])[:400])
+        print("== tour agent LABO ==")
+        for rdir in sorted((REPO / "recherches").glob("*")):
+            if rdir.is_dir() and (rdir / "code").exists():
+                tour_recherche(rdir)
+        print(run([sys.executable, str(REPO / "scripts" / "scoreboard.py")])[:600])
         print("== fin tour ==")
 
+    import time
     if args.once or args.loop == 0:
         tour()
     else:

@@ -1,24 +1,31 @@
-# Template — Nouvelle recherche
+# Template — Nouvelle recherche (labo-wide, même système que la 001)
 
-Copier ce dossier pour `recherches/NNN-slug/` :
+Créer `recherches/NNN-slug/` avec :
 
 ```
 NNN-slug/
-  README.md            # question, hypothèse, état, roadmap
-  ROADMAP.md           # jalons
-  notes/               # 00-vision.md, puis notes datées YYYY-MM-DD-sujet.md
-  code/                # code minimal reproductible + requirements.txt + README provenance
+  README.md            # question, hypothèse, état
+  ROADMAP.md
+  notes/               # 00-vision.md + YYYY-MM-DD-sujet.md
+  code/
+    README.md          # provenance
+    requirements.txt
+    bench_v1.py        # bench fair avec common/bench_harness.py
   tests/
+  hypotheses/
+    README.md          # arbre (copier celui de la 001)
+    _TEMPLATE.md
+    ledger.json        # via common/hypothesis_engine.py --recherche NNN-slug
+  benchmarks/
+    README.md + baselines.json + runs/
   papers/
-    draft-001-slug/    # outline.md, paper.md, figures/, refs.bib
-  references/
-    README.md          # liens, PDFs (ne pas committer les gros PDFs si possible)
+    draft-001-slug/outline.md + paper.md + figures/ + refs.bib + VERSIONS.md
+  references/README.md
 ```
 
-README minimal d'une recherche :
-
-- Question ?
-- Hypothèse ?
-- Qu'est-ce qui existe déjà (code / notes) ?
-- Qu'est-ce qu'on va prouver / mesurer ?
-- Quel papier en sort ?
+Ensuite :
+```
+python common/hypothesis_engine.py add --recherche NNN-slug --id H001 --question "..." --metric "..."
+python scripts/agent_loop.py --once   # teste TOUT le labo, pas que la 001
+python scripts/scoreboard.py          # classe tout le labo
+```
