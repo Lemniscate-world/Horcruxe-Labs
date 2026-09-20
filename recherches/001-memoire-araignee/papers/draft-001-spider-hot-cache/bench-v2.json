@@ -1,0 +1,17 @@
+{
+  "n": 2000,
+  "seed": 42,
+  "sqlite_limit50": {
+    "mean": 0.102,
+    "p50": 0.082
+  },
+  "cache_fair50": {
+    "mean": 0.105,
+    "p50": 0.075
+  },
+  "cache_fullscan": {
+    "mean": 2.568,
+    "p50": 1.689
+  },
+  "parity_fair": "60/60"
+}

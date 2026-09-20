@@ -1,0 +1,30 @@
+# OpenResearch project — Horcruxe Labs (miroir du ledger)
+
+Ce fichier est lu par OpenResearch ET par `common/hypothesis_engine.py`.
+Root = branche `main`. 1 hypothèse = 1 expérience = 1 worktree.
+
+project:
+  name: horcruxe-labs
+  repo: C:\Users\Utilisateur\Documents\Horcruxe Labs
+  root_branch: main
+  baseline:
+    bench: python recherches/001-memoire-araignee/code/bench_v2.py --n 2000 --queries 30 --seed 42
+
+experiments:
+  - id: H001-math-notation
+    branch: hyp/H001-math-notation
+    question: Notation math reduit tokens sans perdre rappel ?
+    metric: tokens, rappel top5, p50
+    status: a-tester
+  - id: H003-graph-weaver
+    branch: hyp/H003-graph-weaver
+    question: Graphe cross-domain ameliore rappel ?
+    metric: rappel cross-domain, p50
+    status: a-tester
+
+workflow:
+  1_orx_up: orx up  # dashboard http://127.0.0.1:4791
+  2_new_project: Existing repo -> ce dossier -> root main
+  3_run_baseline: lancer le bench baseline ci-dessus, archive le commit
+  4_run_exp: orx exp run H001-math-notation (worktree isolé)
+  5_decide: si JSON gagne + tests verts -> merge dans main, sinon abandon
