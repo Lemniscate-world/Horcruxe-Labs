@@ -1,15 +1,10 @@
 #Requires -Version 5.1
-# Demarrage auto Horcruxe : daemon orx headless + 1 tour agent, au logon.
+# Demarrage auto Horcruxe SANS admin : dossier Startup (Task Scheduler casse sur cette machine).
 # Installe avec : .\scripts\register_autostart.ps1
-# Retire avec : Unregister-ScheduledTask -TaskName HorcruxeLab -Confirm:$false
+# Retire avec : Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\horcruxe-lab.bat"
 
 $ErrorActionPreference = "Stop"
-$Repo = "C:\Users\Utilisateur\Documents\Horcruxe Labs"
-$Orx = "$env:USERPROFILE\.local\bin\orx.exe"
-
-$action1 = New-ScheduledTaskAction -Execute $Orx -Argument "up --no-browser" -WorkingDirectory $Repo
-$action2 = New-ScheduledTaskAction -Execute "python" -Argument "scripts\agent_loop.py --once" -WorkingDirectory $Repo
-$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
-$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
-Register-ScheduledTask -TaskName HorcruxeLab -Action @($action1, $action2) -Trigger $trigger -Settings $settings -Force | Out-Null
-Write-Host "Autostart installe : orx daemon + tour agent a chaque ouverture de session."
+$bat = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\horcruxe-lab.bat"
+$body = "@echo off`r`nstart /min `"`" `"%USERPROFILE%\.local\bin\orx.exe`" up --no-browser`r`ncd /d `"C:\Users\Utilisateur\Documents\Horcruxe Labs`"python scripts\agent_loop.py --once`r`n"
+Set-Content -Path $bat -Value $body -Encoding Ascii
+Write-Host "Autostart installe : $bat"
