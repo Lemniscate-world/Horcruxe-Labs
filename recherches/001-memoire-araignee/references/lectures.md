@@ -7,8 +7,8 @@ Règle : aucun papier cité sans être lu (au moins abstract + figures + conclus
 - [ ] Vaswani et al. 2017, Attention Is All You Need, arXiv:1706.03762 — le transformer = fonctions composables (ton idée). Local : à récupérer.
 - [x] Reimers & Gurevych 2019, Sentence-BERT, arXiv:1908.10084 — nos embeddings `all-MiniLM-L6-v2`. Lu : résumé dans notes/01.
 - [ ] Mikolov et al. 2013, Word2Vec, arXiv:1301.3781 — base vecteurs de mots.
-- [ ] EvolveR, arXiv:2510.16079 — distillation trajectoire→principe + triples. Local : `C:\Users\Utilisateur\Documents\russel-agent\PAPERS\2510.16079v3.pdf`
-- [ ] Guide agents OpenAI, `a-practical-guide-to-building-agents.pdf` — guardrails, boucles. Local : russel-agent/PAPERS.
+
+Note : russel-agent = ancien projet séparé. Sa seule trace ici = provenance de la copie initiale (`code/README.md`). Aucune dépendance : bench, weaver, viz tournent sans lui.
 
 ## Comment lire (15 min par papier, R81)
 
