@@ -1,0 +1,9 @@
+{
+  "tokens_texte_mean": 13.6,
+  "tokens_math_mean": 13.2,
+  "tokens_ratio": 0.98,
+  "rappel_texte_vers_texte": "0/6",
+  "rappel_texte_vers_math": "0/6",
+  "lat_p50_texte_ms": 0.0186,
+  "lat_p50_math_ms": 0.0119
+}

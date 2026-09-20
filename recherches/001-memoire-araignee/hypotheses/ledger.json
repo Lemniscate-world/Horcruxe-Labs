@@ -4,9 +4,14 @@
     "H001-math-notation": {
       "question": "Notation math reduit tokens sans perdre rappel ?",
       "metric": "tokens, rappel top5, p50",
-      "status": "a-tester",
+      "status": "en-cours",
       "branch": "hyp/H001-math-notation",
-      "runs": []
+      "runs": [
+        {
+          "bench": "bench_h001 N=12 seed fixe",
+          "result": "tokens 13.6 vs 13.2 ratio 0.98, rappel 0/6 des deux cotes, lat 0.019 vs 0.012ms : notation main ne sauve rien sous cl100k, BM25 trop faible sur micro-corpus"
+        }
+      ]
     },
     "H003-graph-weaver": {
       "question": "Graphe cross-domain ameliore rappel ?",
