@@ -11,7 +11,7 @@
     "H003-graph-weaver": {
       "question": "Graphe cross-domain ameliore rappel ?",
       "metric": "rappel cross-domain, p50",
-      "status": "en-cours",
+      "status": "merge",
       "branch": "hyp/H003-graph-weaver",
       "runs": [
         {
