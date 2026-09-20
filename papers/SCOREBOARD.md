@@ -6,6 +6,7 @@
 | Hypothèse | Question | Statut | Runs |
 |---|---|---|---|
 | H001-math-notation | Notation math reduit tokens sans perdre rappel ? | a-tester | 0 |
-| H003-graph-weaver | Graphe cross-domain ameliore rappel ? | a-tester | 0 |
+| H003-graph-weaver | Graphe cross-domain ameliore rappel ? | en-cours | 2 |
+| H004-structures | Triples types + composition graphe battent texte seul en rappel cross-domain ? | a-tester | 0 |
 
 _Mis à jour par scripts/scoreboard.py. Pas de rang sans JSON._
