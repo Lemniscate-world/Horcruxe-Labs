@@ -1,0 +1,19 @@
+{
+  "root": "main",
+  "hypotheses": {
+    "H001-math-notation": {
+      "question": "Notation math reduit tokens sans perdre rappel ?",
+      "metric": "tokens, rappel top5, p50",
+      "status": "a-tester",
+      "branch": "hyp/H001-math-notation",
+      "runs": []
+    },
+    "H003-graph-weaver": {
+      "question": "Graphe cross-domain ameliore rappel ?",
+      "metric": "rappel cross-domain, p50",
+      "status": "a-tester",
+      "branch": "hyp/H003-graph-weaver",
+      "runs": []
+    }
+  }
+}
