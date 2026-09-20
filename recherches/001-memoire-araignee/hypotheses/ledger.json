@@ -14,6 +14,13 @@
       "status": "a-tester",
       "branch": "hyp/H003-graph-weaver",
       "runs": []
+    },
+    "H004-structures": {
+      "question": "Triples types + composition graphe battent texte seul en rappel cross-domain ?",
+      "metric": "rappel cross-domain, precision",
+      "status": "a-tester",
+      "branch": "hyp/001-memoire-araignee/H004-structures",
+      "runs": []
     }
   }
 }
