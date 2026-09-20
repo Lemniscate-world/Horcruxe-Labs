@@ -17,6 +17,10 @@
         {
           "bench": "bench_h003 N=10, 2 paires attendues",
           "result": "weaver 2/2, BM25 2/2, lat 0.5ms : egalite sur micro-corpus facile, valeur = aretes explicites + evidence + hook triples"
+        },
+        {
+          "bench": "bench_h003 DUR synonymes + 6 distracteurs",
+          "result": "DUR weaver-triples 2/2 vs BM25 0/2 : triples gagnent quand mots disjoints; corpus facile 2/2 partout"
         }
       ]
     },

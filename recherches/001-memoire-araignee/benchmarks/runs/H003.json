@@ -2,5 +2,7 @@
   "liens_detectes": 2,
   "paires_retrouvees_weaver": "2/2",
   "paires_retrouvees_bm25": "2/2",
-  "lat_weaver_ms": 0.521
+  "lat_weaver_ms": 0.119,
+  "dur_weaver_triples": "2/2",
+  "dur_bm25": "0/2"
 }

@@ -33,6 +33,26 @@ PRINCIPES = [
 # paires liées attendues (vérité terrain) : (1,2) cache/routing/signal, (3,4) routing/policy?, (5,6) latency/execution
 ATTENDUES = [(1, 2), (5, 6)]
 
+# Corpus DUR : synonymes sans mots communs, liés seulement par triples typés
+DUR = [
+    {"id": 101, "text": "tvl growth momentum pool expansion", "domain": "defi_quant", "score": 0.8,
+     "triples": [{"s": "pool", "p": "signal", "o": "growth"}]},
+    {"id": 102, "text": "capital increase velocity vault enlargement", "domain": "memory", "score": 0.7,
+     "triples": [{"s": "pool", "p": "signal", "o": "growth"}]},
+    {"id": 103, "text": "slippage cost execution delay", "domain": "defi_quant", "score": 0.7,
+     "triples": [{"s": "trade", "p": "cost", "o": "delay"}]},
+    {"id": 104, "text": "friction expense fulfillment lag", "domain": "memory", "score": 0.6,
+     "triples": [{"s": "trade", "p": "cost", "o": "delay"}]},
+    # distracteurs : aucun mot ni triple en commun avec les paires
+    {"id": 105, "text": "solar panel voltage regulator circuit", "domain": "memory", "score": 0.5, "triples": []},
+    {"id": 106, "text": "baking sourdough crust fermentation timer", "domain": "memory", "score": 0.45, "triples": []},
+    {"id": 107, "text": "lunar orbit trajectory correction burn", "domain": "memory", "score": 0.4, "triples": []},
+    {"id": 108, "text": "chess opening gambit sacrifice exchange", "domain": "memory", "score": 0.35, "triples": []},
+    {"id": 109, "text": "concrete curing humidity control blanket", "domain": "defi_quant", "score": 0.4, "triples": []},
+    {"id": 110, "text": "opera libretto aria staging rehearsal", "domain": "defi_quant", "score": 0.35, "triples": []},
+]
+ATTENDUES_DUR = [(101, 102), (103, 104)]
+
 
 def bm25_top(rows, task, top_k=3):
     qw = set(task.lower().split())
@@ -69,6 +89,20 @@ def main():
         "paires_retrouvees_bm25": f"{hits_base}/{len(ATTENDUES)}",
         "lat_weaver_ms": lat,
     }
+
+    # Corpus DUR : mots disjoints, seuls les triples relient
+    edges_dur = find_links(DUR, min_overlap=0, top_k=50)
+    paires_dur = {(min(e["a_id"], e["b_id"]), max(e["a_id"], e["b_id"])) for e in edges_dur
+                  if e["triple_overlap"] > 0}
+    retrouv_dur = [p for p in ATTENDUES_DUR if p in paires_dur]
+    hits_dur = 0
+    for a, b in ATTENDUES_DUR:
+        qa = next(p["text"] for p in DUR if p["id"] == a)
+        autres = [p for p in DUR if p["id"] != a and p["domain"] != next(x["domain"] for x in DUR if x["id"] == a)]
+        if b in bm25_top(autres, qa):
+            hits_dur += 1
+    res["dur_weaver_triples"] = f"{len(retrouv_dur)}/{len(ATTENDUES_DUR)}"
+    res["dur_bm25"] = f"{hits_dur}/{len(ATTENDUES_DUR)}"
     print(json.dumps(res, indent=2))
     print("edges:", json.dumps(edges[:5], ensure_ascii=False))
     if args.out:
