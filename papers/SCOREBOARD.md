@@ -1,6 +1,6 @@
 # Scoreboard — classement par chiffres
 
-Baseline bench V2 (N=2000) : sqlite p50 0.082ms | cache fair p50 0.075ms | fullscan p50 1.689ms | parité 60/60
+Baseline bench V2 (N=2000) : sqlite p50 0.081ms | cache fair p50 0.076ms | fullscan p50 1.697ms | parité 60/60
 
 | Hypothèse | Question | Statut | Runs |
 |---|---|---|---|
