@@ -20,8 +20,8 @@ if (-not $orx) {
 
 # 2. Dashboard auto (si orx présent)
 if (-not $modeSansOrx) {
-  Say "Démarrage orx up en fond..."
-  Start-Process orx -ArgumentList "up" -WindowStyle Minimized
+  Say "Démarrage orx up en fond (sans navigateur)..."
+  Start-Process orx -ArgumentList "up --no-browser" -WindowStyle Minimized
   Start-Sleep -Seconds 5
   try {
     $r = Invoke-WebRequest -Uri "http://127.0.0.1:4791" -TimeoutSec 5 -UseBasicParsing

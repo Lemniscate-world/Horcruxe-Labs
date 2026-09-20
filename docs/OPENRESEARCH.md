@@ -4,11 +4,9 @@ Tu ne le vois pas car ce n'est pas un site, c'est une app locale + CLI `orx`.
 
 ## 1. Installer (Windows beta)
 
-- Installer Git for Windows (déjà fait : git 2.55).
-- Télécharger `OpenResearch-Windows.exe` sur https://openresearch.sh/download (Releases GitHub alphaXiv/OpenResearch).
-- Ou CLI : `curl -LsSf https://openresearch.sh/install.sh | sh` (Linux/macOS, Windows via Git Bash).
-- Lancer : `orx up` → dashboard `http://127.0.0.1:4791`.
-- Lier ton agent : `orx install-skills` (branche OpenCode).
+- orx 0.2.6 déjà installé ici (`~/.local/bin/orx.exe`, dans le PATH).
+- Dashboard optionnel, JAMAIS ouvert d'office : `orx up --no-browser`.
+- Sans web : tout se fait en CLI (`orx projects / runs / logs / exp`) + fichiers (`papers/SCOREBOARD.md`) + ping Discord.
 
 ## 2. Créer le projet Spider
 
